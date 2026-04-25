@@ -1,0 +1,72 @@
+================================================================================
+SYSDATE in DEFAULT clause
+================================================================================
+
+CREATE TABLE t (created_at DATE DEFAULT SYSDATE);
+
+--------------------------------------------------------------------------------
+
+(program
+  (statement
+    (create_table
+      (keyword_create)
+      (keyword_table)
+      (object_reference
+        name: (identifier))
+      (column_definitions
+        (column_definition
+          name: (identifier)
+          type: (keyword_date)
+          (keyword_default)
+          (pseudocolumn
+            (keyword_sysdate)))))))
+
+================================================================================
+ROWNUM in WHERE
+================================================================================
+
+SELECT ROWNUM FROM emp WHERE ROWNUM <= 10;
+
+--------------------------------------------------------------------------------
+
+(program
+  (statement
+    (select
+      (keyword_select)
+      (select_expression
+        (term
+          value: (pseudocolumn
+            (keyword_rownum)))))
+    (from
+      (keyword_from)
+      (relation
+        (object_reference
+          name: (identifier)))
+      (where
+        (keyword_where)
+        predicate: (binary_expression
+          left: (pseudocolumn
+            (keyword_rownum))
+          right: (literal))))))
+
+================================================================================
+SYSTIMESTAMP returned from dual
+================================================================================
+
+SELECT SYSTIMESTAMP FROM dual;
+
+--------------------------------------------------------------------------------
+
+(program
+  (statement
+    (select
+      (keyword_select)
+      (select_expression
+        (term
+          value: (pseudocolumn
+            (keyword_systimestamp)))))
+    (from
+      (keyword_from)
+      (relation
+        (object_reference
+          name: (identifier))))))

@@ -1,0 +1,32 @@
+================================================================================
+DROP TABLE with PURGE
+================================================================================
+
+DROP TABLE old_emp PURGE;
+
+--------------------------------------------------------------------------------
+
+(program
+  (statement
+    (drop_table
+      (keyword_drop)
+      (keyword_table)
+      (object_reference
+        name: (identifier))
+      (keyword_purge))))
+
+================================================================================
+DROP TABLE without PURGE still works
+================================================================================
+
+DROP TABLE old_emp;
+
+--------------------------------------------------------------------------------
+
+(program
+  (statement
+    (drop_table
+      (keyword_drop)
+      (keyword_table)
+      (object_reference
+        name: (identifier)))))

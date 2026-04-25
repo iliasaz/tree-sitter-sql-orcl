@@ -101,6 +101,7 @@ export default {
       $.array,
       $.invocation,
       $.keyword_current_timestamp,
+      $.pseudocolumn,
       alias($.implicit_cast, $.cast),
   ),
 

@@ -441,4 +441,25 @@ export default {
   // Oracle: PIVOT / UNPIVOT
   keyword_pivot: _ => make_keyword("pivot"),
   keyword_unpivot: _ => make_keyword("unpivot"),
+
+  // Oracle types
+  keyword_varchar2: _ => make_keyword("varchar2"),
+  keyword_nvarchar2: _ => make_keyword("nvarchar2"),
+  keyword_number: _ => make_keyword("number"),
+  keyword_clob: _ => make_keyword("clob"),
+  keyword_nclob: _ => make_keyword("nclob"),
+  keyword_blob: _ => make_keyword("blob"),
+  keyword_bfile: _ => make_keyword("bfile"),
+  keyword_long: _ => make_keyword("long"),
+  keyword_raw: _ => make_keyword("raw"),
+  keyword_binary_float: _ => make_keyword("binary_float"),
+  keyword_binary_double: _ => make_keyword("binary_double"),
+  keyword_pls_integer: _ => make_keyword("pls_integer"),
+  keyword_binary_integer: _ => make_keyword("binary_integer"),
+
+  // Oracle DDL clauses (keyword_modify and keyword_cache already exist above)
+  keyword_purge: _ => make_keyword("purge"),
+  keyword_synonym: _ => make_keyword("synonym"),
+  keyword_nocache: _ => make_keyword("nocache"),
+  keyword_share: _ => make_keyword("share"),
 }

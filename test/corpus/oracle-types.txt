@@ -1,0 +1,59 @@
+================================================================================
+Oracle parametric types in column definitions
+================================================================================
+
+CREATE TABLE t (
+  a VARCHAR2(10),
+  b NUMBER(10, 2),
+  c NUMBER,
+  d NUMBER(5),
+  e RAW(2000),
+  f CLOB,
+  g BLOB,
+  h BINARY_DOUBLE
+);
+
+--------------------------------------------------------------------------------
+
+(program
+  (statement
+    (create_table
+      (keyword_create)
+      (keyword_table)
+      (object_reference
+        name: (identifier))
+      (column_definitions
+        (column_definition
+          name: (identifier)
+          type: (varchar2
+            (keyword_varchar2)
+            size: (literal)))
+        (column_definition
+          name: (identifier)
+          type: (number
+            (keyword_number)
+            precision: (literal)
+            scale: (literal)))
+        (column_definition
+          name: (identifier)
+          type: (number
+            (keyword_number)))
+        (column_definition
+          name: (identifier)
+          type: (number
+            (keyword_number)
+            precision: (literal)))
+        (column_definition
+          name: (identifier)
+          type: (raw
+            (keyword_raw)
+            size: (literal)))
+        (column_definition
+          name: (identifier)
+          type: (keyword_clob))
+        (column_definition
+          name: (identifier)
+          type: (keyword_blob))
+        (column_definition
+          name: (identifier)
+          type: (keyword_binary_double))))))

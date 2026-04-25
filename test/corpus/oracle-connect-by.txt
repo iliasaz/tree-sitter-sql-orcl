@@ -15,8 +15,8 @@ SELECT empno, LEVEL FROM emp START WITH mgr IS NULL CONNECT BY PRIOR empno = mgr
           value: (field
             name: (identifier)))
         (term
-          value: (field
-            name: (identifier)))))
+          value: (pseudocolumn
+            (keyword_level)))))
     (from
       (keyword_from)
       (relation

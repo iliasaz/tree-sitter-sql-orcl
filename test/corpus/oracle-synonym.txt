@@ -1,0 +1,58 @@
+================================================================================
+CREATE OR REPLACE SYNONYM
+================================================================================
+
+CREATE OR REPLACE SYNONYM emp FOR hr.employees;
+
+--------------------------------------------------------------------------------
+
+(program
+  (statement
+    (create_synonym
+      (keyword_create)
+      (keyword_or)
+      (keyword_replace)
+      (keyword_synonym)
+      name: (object_reference
+        name: (identifier))
+      (keyword_for)
+      target: (object_reference
+        schema: (identifier)
+        name: (identifier)))))
+
+================================================================================
+CREATE PUBLIC SYNONYM
+================================================================================
+
+CREATE PUBLIC SYNONYM dept FOR hr.departments;
+
+--------------------------------------------------------------------------------
+
+(program
+  (statement
+    (create_synonym
+      (keyword_create)
+      (keyword_public)
+      (keyword_synonym)
+      name: (object_reference
+        name: (identifier))
+      (keyword_for)
+      target: (object_reference
+        schema: (identifier)
+        name: (identifier)))))
+
+================================================================================
+DROP SYNONYM
+================================================================================
+
+DROP SYNONYM emp;
+
+--------------------------------------------------------------------------------
+
+(program
+  (statement
+    (drop_synonym
+      (keyword_drop)
+      (keyword_synonym)
+      (object_reference
+        name: (identifier)))))

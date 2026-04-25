@@ -13,6 +13,7 @@ export default {
       $.drop_database,
       $.drop_role,
       $.drop_sequence,
+      $.drop_synonym,
       $.drop_extension,
       $.drop_function,
       $.drop_procedure,
@@ -25,6 +26,16 @@ export default {
     optional($._if_exists),
     $.object_reference,
     optional($._drop_behavior),
+    optional($.keyword_purge),
+  ),
+
+  drop_synonym: $ => seq(
+    $.keyword_drop,
+    optional($.keyword_public),
+    $.keyword_synonym,
+    optional($._if_exists),
+    $.object_reference,
+    optional($.keyword_force),
   ),
 
   drop_view: $ => seq(

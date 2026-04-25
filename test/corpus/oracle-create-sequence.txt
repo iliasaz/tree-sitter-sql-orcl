@@ -1,0 +1,23 @@
+================================================================================
+CREATE SEQUENCE with Oracle clauses
+================================================================================
+
+CREATE SEQUENCE emp_seq START WITH 1 INCREMENT BY 1 NOCACHE NOCYCLE;
+
+--------------------------------------------------------------------------------
+
+(program
+  (statement
+    (create_sequence
+      (keyword_create)
+      (keyword_sequence)
+      (object_reference
+        name: (identifier))
+      (keyword_start)
+      (keyword_with)
+      start: (literal)
+      (keyword_increment)
+      (keyword_by)
+      increment: (literal)
+      (keyword_nocache)
+      (keyword_nocycle))))

@@ -17,6 +17,7 @@ export default {
       $.create_database,
       $.create_role,
       $.create_sequence,
+      $.create_synonym,
       $.create_extension,
       $.create_trigger,
       $.create_policy,
@@ -454,10 +455,25 @@ export default {
         seq($.keyword_no, $.keyword_maxvalue),
         seq($.keyword_start, optional($.keyword_with), field("start", alias($._integer, $.literal))),
         seq($.keyword_cache, field("cache", alias($._integer, $.literal))),
+        $.keyword_nocache,
         seq(optional($.keyword_no), $.keyword_cycle),
+        $.keyword_nocycle,
         seq($.keyword_owned, $.keyword_by, choice($.keyword_none, $.object_reference)),
+        seq(optional($.keyword_no), $.keyword_order),
       )
     ),
+  ),
+
+  // Oracle CREATE SYNONYM (sqlrf/CREATE-SYNONYM.html)
+  create_synonym: $ => seq(
+    $.keyword_create,
+    optional(seq($.keyword_or, $.keyword_replace)),
+    optional($.keyword_public),
+    $.keyword_synonym,
+    optional($._if_not_exists),
+    field("name", $.object_reference),
+    $.keyword_for,
+    field("target", $.object_reference),
   ),
 
   create_extension: $ => prec.left(seq(

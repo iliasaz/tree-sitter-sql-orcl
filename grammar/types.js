@@ -69,11 +69,35 @@ export default {
         $.keyword_regproc,
         $.keyword_regtype,
 
+        // Oracle types
+        $.varchar2,
+        $.nvarchar2,
+        $.number,
+        $.raw,
+        $.keyword_clob,
+        $.keyword_nclob,
+        $.keyword_blob,
+        $.keyword_bfile,
+        $.keyword_long,
+        $.keyword_binary_float,
+        $.keyword_binary_double,
+        $.keyword_pls_integer,
+        $.keyword_binary_integer,
+
         field("custom_type", $.object_reference)
       ),
       optional($.array_size_definition)
     ),
   ),
+
+  // Oracle parametric types
+  varchar2: $ => parametric_type($, $.keyword_varchar2),
+  nvarchar2: $ => parametric_type($, $.keyword_nvarchar2),
+  number: $ => choice(
+    parametric_type($, $.keyword_number, ['precision']),
+    parametric_type($, $.keyword_number, ['precision', 'scale']),
+  ),
+  raw: $ => parametric_type($, $.keyword_raw),
 
   array_size_definition: $ => prec.left(
     choice(

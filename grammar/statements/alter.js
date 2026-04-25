@@ -58,6 +58,22 @@ export default {
     $.rename_column,
     $.set_schema,
     $.change_ownership,
+    $.oracle_add_columns,
+    $.oracle_modify_columns,
+  ),
+
+  // Oracle: ALTER TABLE t ADD (col1 type, col2 type [, ...])
+  oracle_add_columns: $ => seq(
+    $.keyword_add,
+    paren_list($.column_definition, true),
+  ),
+
+  // Oracle: ALTER TABLE t MODIFY (col1 type [, ...])
+  // Note: the bare-column form `MODIFY col type` is already handled by
+  // `modify_column` from the upstream grammar.
+  oracle_modify_columns: $ => seq(
+    $.keyword_modify,
+    paren_list($.column_definition, true),
   ),
 
   // TODO: optional `keyword_add` is necessary to allow for chained alter statements in t-sql

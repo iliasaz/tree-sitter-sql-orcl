@@ -1,0 +1,45 @@
+================================================================================
+ALTER TABLE ADD parenthesized columns
+================================================================================
+
+ALTER TABLE employees ADD (mgr NUMBER);
+
+--------------------------------------------------------------------------------
+
+(program
+  (statement
+    (alter_table
+      (keyword_alter)
+      (keyword_table)
+      (object_reference
+        name: (identifier))
+      (oracle_add_columns
+        (keyword_add)
+        (column_definition
+          name: (identifier)
+          type: (number
+            (keyword_number)))))))
+
+================================================================================
+ALTER TABLE MODIFY parenthesized columns
+================================================================================
+
+ALTER TABLE employees MODIFY (sal NUMBER(8, 2));
+
+--------------------------------------------------------------------------------
+
+(program
+  (statement
+    (alter_table
+      (keyword_alter)
+      (keyword_table)
+      (object_reference
+        name: (identifier))
+      (oracle_modify_columns
+        (keyword_modify)
+        (column_definition
+          name: (identifier)
+          type: (number
+            (keyword_number)
+            precision: (literal)
+            scale: (literal)))))))

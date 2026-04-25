@@ -26,7 +26,17 @@ export default {
       $.between_expression,
       $.parenthesized_expression,
       $.object_id,
+      $.pseudocolumn,
     )
+  ),
+
+  // Oracle pseudocolumns and parenless built-ins that are valid as expressions
+  pseudocolumn: $ => choice(
+    $.keyword_sysdate,
+    $.keyword_systimestamp,
+    $.keyword_rownum,
+    $.keyword_rowid,
+    $.keyword_level,
   ),
 
     object_reference: $ => choice(
