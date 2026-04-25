@@ -462,4 +462,22 @@ export default {
   keyword_synonym: _ => make_keyword("synonym"),
   keyword_nocache: _ => make_keyword("nocache"),
   keyword_share: _ => make_keyword("share"),
+
+  // PL/SQL keywords (others — current_user, definer, each, row, pragma,
+  // package, body, authid, instead, of — exist above)
+  keyword_elsif: _ => make_keyword("elsif"),
+  keyword_exception: _ => make_keyword("exception"),
+  keyword_raise: _ => make_keyword("raise"),
+  keyword_loop: _ => make_keyword("loop"),
+  keyword_exit: _ => make_keyword("exit"),
+  keyword_continue: _ => make_keyword("continue"),
+  keyword_reverse: _ => make_keyword("reverse"),
+  keyword_constant: _ => make_keyword("constant"),
+  keyword_nocopy: _ => make_keyword("nocopy"),
+  keyword_deterministic: _ => make_keyword("deterministic"),
+  keyword_pipelined: _ => make_keyword("pipelined"),
+  keyword_authid: _ => make_keyword("authid"),
+  keyword_package: _ => make_keyword("package"),
+  keyword_body: _ => make_keyword("body"),
+  keyword_pragma: _ => make_keyword("pragma"),
 }

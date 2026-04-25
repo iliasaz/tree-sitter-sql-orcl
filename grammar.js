@@ -32,6 +32,9 @@ export default grammar({
     [$.between_expression, $.binary_expression],
     [$.time],
     [$.timestamp],
+    [$.block, $.plsql_block],
+    [$._qualified_field, $.plsql_assignment],
+    [$.transaction, $.block, $._plsql_statement],
   ],
 
   precedences: $ => [
@@ -59,13 +62,17 @@ export default grammar({
     program: $ => seq(
       // any number of transactions, statements, or blocks with a terminating ;
       repeat(
-        seq(
-          choice(
-            $.transaction,
-            $.statement,
-            $.block,
+        choice(
+          seq(
+            choice(
+              $.transaction,
+              $.statement,
+              $.block,
+            ),
+            ';',
           ),
-          ';',
+          // Oracle PL/SQL anonymous block, ;-terminated.
+          seq($.plsql_block, ';'),
         ),
       ),
       // optionally, a single statement without a terminating ;

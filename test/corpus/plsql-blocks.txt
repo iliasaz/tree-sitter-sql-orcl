@@ -1,0 +1,207 @@
+================================================================================
+Anonymous block with DECLARE
+================================================================================
+
+DECLARE
+  v_x NUMBER := 1;
+BEGIN
+  v_x := v_x + 1;
+END;
+
+--------------------------------------------------------------------------------
+
+(program
+  (plsql_block
+    (plsql_declare_section
+      (keyword_declare)
+      (plsql_declaration
+        name: (identifier)
+        type: (number
+          (keyword_number))
+        value: (literal)))
+    (keyword_begin)
+    (plsql_assignment
+      target: (identifier)
+      value: (binary_expression
+        left: (field
+          name: (identifier))
+        right: (literal)))
+    (keyword_end)))
+
+================================================================================
+Bare BEGIN-END block
+================================================================================
+
+BEGIN
+  NULL;
+END;
+
+--------------------------------------------------------------------------------
+
+(program
+  (plsql_block
+    (keyword_begin)
+    (plsql_null
+      (keyword_null))
+    (keyword_end)))
+
+================================================================================
+IF/ELSIF/ELSE
+================================================================================
+
+BEGIN
+  IF 1 = 1 THEN
+    NULL;
+  ELSIF 2 = 2 THEN
+    NULL;
+  ELSE
+    NULL;
+  END IF;
+END;
+
+--------------------------------------------------------------------------------
+
+(program
+  (plsql_block
+    (keyword_begin)
+    (plsql_if
+      (keyword_if)
+      condition: (binary_expression
+        left: (literal)
+        right: (literal))
+      (keyword_then)
+      (plsql_null
+        (keyword_null))
+      (plsql_elsif
+        (keyword_elsif)
+        condition: (binary_expression
+          left: (literal)
+          right: (literal))
+        (keyword_then)
+        (plsql_null
+          (keyword_null)))
+      (plsql_else
+        (keyword_else)
+        (plsql_null
+          (keyword_null)))
+      (keyword_end)
+      (keyword_if))
+    (keyword_end)))
+
+================================================================================
+FOR loop with range
+================================================================================
+
+BEGIN
+  FOR i IN 1..10 LOOP
+    NULL;
+  END LOOP;
+END;
+
+--------------------------------------------------------------------------------
+
+(program
+  (plsql_block
+    (keyword_begin)
+    (plsql_for_loop
+      (keyword_for)
+      index: (identifier)
+      (keyword_in)
+      low: (literal)
+      high: (literal)
+      (keyword_loop)
+      (plsql_null
+        (keyword_null))
+      (keyword_end)
+      (keyword_loop))
+    (keyword_end)))
+
+================================================================================
+EXCEPTION section with named handler and OTHERS
+================================================================================
+
+BEGIN
+  NULL;
+EXCEPTION
+  WHEN NO_DATA_FOUND THEN NULL;
+  WHEN OTHERS THEN RAISE;
+END;
+
+--------------------------------------------------------------------------------
+
+(program
+  (plsql_block
+    (keyword_begin)
+    (plsql_null
+      (keyword_null))
+    (plsql_exception_section
+      (keyword_exception)
+      (plsql_exception_handler
+        (keyword_when)
+        exception: (identifier)
+        (keyword_then)
+        (plsql_null
+          (keyword_null)))
+      (plsql_exception_handler
+        (keyword_when)
+        exception: (keyword_others)
+        (keyword_then)
+        (plsql_raise
+          (keyword_raise))))
+    (keyword_end)))
+
+================================================================================
+Embedded SQL inside PL/SQL block (DECLARE disambiguates)
+================================================================================
+
+DECLARE
+  v_count NUMBER;
+BEGIN
+  INSERT INTO t (a) VALUES (1);
+  SELECT COUNT(*) INTO v_count FROM t;
+END;
+
+--------------------------------------------------------------------------------
+
+(program
+  (plsql_block
+    (plsql_declare_section
+      (keyword_declare)
+      (plsql_declaration
+        name: (identifier)
+        type: (number
+          (keyword_number))))
+    (keyword_begin)
+    (statement
+      (insert
+        (keyword_insert)
+        (keyword_into)
+        (object_reference
+          name: (identifier))
+        (list
+          (column
+            (identifier)))
+        (keyword_values)
+        (list
+          (literal))))
+    (statement
+      (select
+        (keyword_select)
+        (select_expression
+          (term
+            value: (invocation
+              (object_reference
+                name: (identifier))
+              parameter: (term
+                value: (all_fields))))))
+      (keyword_into)
+      (select_expression
+        (term
+          value: (field
+            name: (identifier))))
+      (from
+        (keyword_from)
+        (relation
+          (object_reference
+            name: (identifier)))))
+    (keyword_end)))

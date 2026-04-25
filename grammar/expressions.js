@@ -422,7 +422,11 @@ export default {
   _decimal_number: $ => seq(
     optional(
       choice("-", "+")),
-    /((\d+(_\d+)*)?[.]\d+(_\d+)*(e[+-]?\d+(_\d+)*)?)|(\d+(_\d+)*[.](e[+-]?\d+(_\d+)*)?)/
+    // Require a digit on at least one side of the dot. `1.` (digits . end)
+    // is dropped from the original DerekStride alternative because it
+    // collides with PL/SQL's `..` range operator (1..10). `1.0` and `.5`
+    // still match.
+    /((\d+(_\d+)*)?[.]\d+(_\d+)*(e[+-]?\d+(_\d+)*)?)/
   ),
   _bit_string: $ => seq(/[bBxX]'([^']|'')*'/, repeat(/'([^']|'')*'/)),
   // The identifier should be followed by a string (no parenthesis allowed)

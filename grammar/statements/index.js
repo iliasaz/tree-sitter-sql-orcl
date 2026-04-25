@@ -15,6 +15,7 @@ import copy_rules from "./copy.js";
 import select_rules from "./select.js";
 import set_rules from "./set.js";
 import refresh_rules from "./refresh.js";
+import plsql_rules from "./plsql.js";
 
 export default {
 
@@ -130,6 +131,7 @@ export default {
 
   ...select_rules,
   ...set_rules,
+  ...plsql_rules,
 
   _show_statement: $ => seq(
     $.keyword_show,
