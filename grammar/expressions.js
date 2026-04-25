@@ -321,6 +321,7 @@ export default {
       [$.keyword_any, 'unary_not'],
       [$.keyword_some, 'unary_not'],
       [$.keyword_all, 'unary_not'],
+      [$.keyword_prior, 'unary_other'], // Oracle hierarchical query operator
       [$.op_unary_other, 'unary_other'],
     ].map(([operator, precedence]) =>
       prec.left(precedence, seq(
@@ -382,6 +383,17 @@ export default {
 
   _postgres_escape_string: _ => /(e|E)'([^']|\\')*'/,
 
+  // Oracle alternative-quote string: q'X...X' where the closing X mirrors the
+  // opener. Bracket forms ( [ ] / { } / ( ) / < > ) are encoded directly here.
+  // The arbitrary single-character form `q'!...!'` requires an external scanner
+  // (RE2 has no back-references) and is left for a future iteration.
+  _alternative_quote_string: _ => token(prec(2, choice(
+    /[qQ]'\[[^\]]*\]'/,
+    /[qQ]'\{[^}]*\}'/,
+    /[qQ]'\([^)]*\)'/,
+    /[qQ]'<[^>]*>'/,
+  ))),
+
   _literal_string: $ => prec(
     1,
     choice(
@@ -389,6 +401,7 @@ export default {
       $._double_quote_string,
       $._dollar_quoted_string,
       $._postgres_escape_string,
+      $._alternative_quote_string,
     ),
   ),
   _natural_number: _ => /\d+/,

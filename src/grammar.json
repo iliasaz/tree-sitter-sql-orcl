@@ -49,6 +49,28 @@
         }
       ]
     },
+    "hint_line": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 2,
+        "content": {
+          "type": "PATTERN",
+          "value": "--\\+[^\\n]*"
+        }
+      }
+    },
+    "hint": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 2,
+        "content": {
+          "type": "PATTERN",
+          "value": "\\/\\*\\+[^*]*\\*+(?:[^/*][^*]*\\*+)*\\/"
+        }
+      }
+    },
     "comment": {
       "type": "PATTERN",
       "value": "--.*"
@@ -1975,6 +1997,46 @@
     "keyword_array": {
       "type": "PATTERN",
       "value": "[aA][rR][rR][aA][yY]"
+    },
+    "keyword_connect": {
+      "type": "PATTERN",
+      "value": "[cC][oO][nN][nN][eE][cC][tT]"
+    },
+    "keyword_prior": {
+      "type": "PATTERN",
+      "value": "[pP][rR][iI][oO][rR]"
+    },
+    "keyword_nocycle": {
+      "type": "PATTERN",
+      "value": "[nN][oO][cC][yY][cC][lL][eE]"
+    },
+    "keyword_siblings": {
+      "type": "PATTERN",
+      "value": "[sS][iI][bB][lL][iI][nN][gG][sS]"
+    },
+    "keyword_rownum": {
+      "type": "PATTERN",
+      "value": "[rR][oO][wW][nN][uU][mM]"
+    },
+    "keyword_rowid": {
+      "type": "PATTERN",
+      "value": "[rR][oO][wW][iI][dD]"
+    },
+    "keyword_sysdate": {
+      "type": "PATTERN",
+      "value": "[sS][yY][sS][dD][aA][tT][eE]"
+    },
+    "keyword_systimestamp": {
+      "type": "PATTERN",
+      "value": "[sS][yY][sS][tT][iI][mM][eE][sS][tT][aA][mM][pP]"
+    },
+    "keyword_pivot": {
+      "type": "PATTERN",
+      "value": "[pP][iI][vV][oO][tT]"
+    },
+    "keyword_unpivot": {
+      "type": "PATTERN",
+      "value": "[uU][nN][pP][iI][vV][oO][tT]"
     },
     "_type": {
       "type": "PREC_LEFT",
@@ -8301,6 +8363,31 @@
                 "name": "operator",
                 "content": {
                   "type": "SYMBOL",
+                  "name": "keyword_prior"
+                }
+              },
+              {
+                "type": "FIELD",
+                "name": "operand",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_expression"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "PREC_LEFT",
+          "value": "unary_other",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "FIELD",
+                "name": "operator",
+                "content": {
+                  "type": "SYMBOL",
                   "name": "op_unary_other"
                 }
               },
@@ -8579,6 +8666,34 @@
       "type": "PATTERN",
       "value": "(e|E)'([^']|\\\\')*'"
     },
+    "_alternative_quote_string": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 2,
+        "content": {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "PATTERN",
+              "value": "[qQ]'\\[[^\\]]*\\]'"
+            },
+            {
+              "type": "PATTERN",
+              "value": "[qQ]'\\{[^}]*\\}'"
+            },
+            {
+              "type": "PATTERN",
+              "value": "[qQ]'\\([^)]*\\)'"
+            },
+            {
+              "type": "PATTERN",
+              "value": "[qQ]'<[^>]*>'"
+            }
+          ]
+        }
+      }
+    },
     "_literal_string": {
       "type": "PREC",
       "value": 1,
@@ -8600,6 +8715,10 @@
           {
             "type": "SYMBOL",
             "name": "_postgres_escape_string"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_alternative_quote_string"
           }
         ]
       }
@@ -20563,6 +20682,18 @@
           "members": [
             {
               "type": "SYMBOL",
+              "name": "hierarchical_query_clause"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
               "name": "group_by"
             },
             {
@@ -20617,6 +20748,107 @@
               "type": "BLANK"
             }
           ]
+        }
+      ]
+    },
+    "hierarchical_query_clause": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "start_with_clause"
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "connect_by_clause"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "connect_by_clause"
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "start_with_clause"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "start_with_clause": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "keyword_start"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "keyword_with"
+        },
+        {
+          "type": "FIELD",
+          "name": "condition",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_expression"
+          }
+        }
+      ]
+    },
+    "connect_by_clause": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "keyword_connect"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "keyword_by"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "keyword_nocycle"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "FIELD",
+          "name": "condition",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_expression"
+          }
         }
       ]
     },
@@ -22152,6 +22384,14 @@
     {
       "type": "PATTERN",
       "value": "\\s"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "hint_line"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "hint"
     },
     {
       "type": "SYMBOL",

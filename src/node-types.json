@@ -4000,6 +4000,108 @@
     }
   },
   {
+    "type": "connect_by_clause",
+    "named": true,
+    "fields": {
+      "condition": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "array",
+            "named": true
+          },
+          {
+            "type": "between_expression",
+            "named": true
+          },
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "case",
+            "named": true
+          },
+          {
+            "type": "cast",
+            "named": true
+          },
+          {
+            "type": "exists",
+            "named": true
+          },
+          {
+            "type": "field",
+            "named": true
+          },
+          {
+            "type": "interval",
+            "named": true
+          },
+          {
+            "type": "invocation",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "literal",
+            "named": true
+          },
+          {
+            "type": "object_id",
+            "named": true
+          },
+          {
+            "type": "parameter",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "subquery",
+            "named": true
+          },
+          {
+            "type": "subscript",
+            "named": true
+          },
+          {
+            "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "window_function",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "keyword_by",
+          "named": true
+        },
+        {
+          "type": "keyword_connect",
+          "named": true
+        },
+        {
+          "type": "keyword_nocycle",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "constraint",
     "named": true,
     "fields": {
@@ -7441,6 +7543,10 @@
           "named": true
         },
         {
+          "type": "hierarchical_query_clause",
+          "named": true
+        },
+        {
           "type": "index_hint",
           "named": true
         },
@@ -8501,6 +8607,25 @@
         },
         {
           "type": "window_function",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "hierarchical_query_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "connect_by_clause",
+          "named": true
+        },
+        {
+          "type": "start_with_clause",
           "named": true
         }
       ]
@@ -11012,6 +11137,104 @@
     }
   },
   {
+    "type": "start_with_clause",
+    "named": true,
+    "fields": {
+      "condition": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "array",
+            "named": true
+          },
+          {
+            "type": "between_expression",
+            "named": true
+          },
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "case",
+            "named": true
+          },
+          {
+            "type": "cast",
+            "named": true
+          },
+          {
+            "type": "exists",
+            "named": true
+          },
+          {
+            "type": "field",
+            "named": true
+          },
+          {
+            "type": "interval",
+            "named": true
+          },
+          {
+            "type": "invocation",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "literal",
+            "named": true
+          },
+          {
+            "type": "object_id",
+            "named": true
+          },
+          {
+            "type": "parameter",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "subquery",
+            "named": true
+          },
+          {
+            "type": "subscript",
+            "named": true
+          },
+          {
+            "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "window_function",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "keyword_start",
+          "named": true
+        },
+        {
+          "type": "keyword_with",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "statement",
     "named": true,
     "fields": {
@@ -12928,6 +13151,10 @@
             "named": true
           },
           {
+            "type": "keyword_prior",
+            "named": true
+          },
+          {
             "type": "keyword_some",
             "named": true
           },
@@ -14085,6 +14312,16 @@
     "named": true
   },
   {
+    "type": "hint",
+    "named": true,
+    "extra": true
+  },
+  {
+    "type": "hint_line",
+    "named": true,
+    "extra": true
+  },
+  {
     "type": "keyword_action",
     "named": true
   },
@@ -14286,6 +14523,10 @@
   },
   {
     "type": "keyword_conflict",
+    "named": true
+  },
+  {
+    "type": "keyword_connect",
     "named": true
   },
   {
@@ -14845,6 +15086,10 @@
     "named": true
   },
   {
+    "type": "keyword_nocycle",
+    "named": true
+  },
+  {
     "type": "keyword_none",
     "named": true
   },
@@ -15014,6 +15259,10 @@
   },
   {
     "type": "keyword_primary",
+    "named": true
+  },
+  {
+    "type": "keyword_prior",
     "named": true
   },
   {

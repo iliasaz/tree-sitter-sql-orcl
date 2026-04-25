@@ -220,11 +220,32 @@ export default {
       ),
     ),
     optional($.where),
+    optional($.hierarchical_query_clause),
     optional($.group_by),
     optional($.having),
     optional($.window_clause),
     optional($.order_by),
     optional($.limit),
+  ),
+
+  // Oracle hierarchical query clauses (sqlrf/SELECT.html). Either order is valid;
+  // either clause may appear without the other.
+  hierarchical_query_clause: $ => choice(
+    seq($.start_with_clause, optional($.connect_by_clause)),
+    seq($.connect_by_clause, optional($.start_with_clause)),
+  ),
+
+  start_with_clause: $ => seq(
+    $.keyword_start,
+    $.keyword_with,
+    field("condition", $._expression),
+  ),
+
+  connect_by_clause: $ => seq(
+    $.keyword_connect,
+    $.keyword_by,
+    optional($.keyword_nocycle),
+    field("condition", $._expression),
   ),
 
   relation: $ => prec.right(

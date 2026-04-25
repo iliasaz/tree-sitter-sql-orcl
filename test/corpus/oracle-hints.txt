@@ -1,0 +1,90 @@
+================================================================================
+Block hint
+================================================================================
+
+SELECT /*+ FULL(e) */ * FROM employees e;
+
+--------------------------------------------------------------------------------
+
+(program
+  (statement
+    (select
+      (keyword_select)
+      (hint)
+      (select_expression
+        (term
+          value: (all_fields))))
+    (from
+      (keyword_from)
+      (relation
+        (object_reference
+          name: (identifier))
+        alias: (identifier)))))
+
+================================================================================
+Line hint
+================================================================================
+
+SELECT --+ FIRST_ROWS(10)
+       * FROM employees;
+
+--------------------------------------------------------------------------------
+
+(program
+  (statement
+    (select
+      (keyword_select)
+      (hint_line)
+      (select_expression
+        (term
+          value: (all_fields))))
+    (from
+      (keyword_from)
+      (relation
+        (object_reference
+          name: (identifier))))))
+
+================================================================================
+Block hint with parallel
+================================================================================
+
+SELECT /*+ PARALLEL(t, 4) INDEX(t idx_name) */ id FROM t;
+
+--------------------------------------------------------------------------------
+
+(program
+  (statement
+    (select
+      (keyword_select)
+      (hint)
+      (select_expression
+        (term
+          value: (field
+            name: (identifier)))))
+    (from
+      (keyword_from)
+      (relation
+        (object_reference
+          name: (identifier))))))
+
+================================================================================
+Plain block comment is still marginalia, not hint
+================================================================================
+
+SELECT /* normal comment */ 1 FROM dual;
+
+--------------------------------------------------------------------------------
+
+(program
+  (statement
+    (select
+      (keyword_select)
+      (marginalia)
+      (select_expression
+        (term
+          value: (literal))))
+    (from
+      (keyword_from)
+      (relation
+        (object_reference
+          name: (identifier))))))

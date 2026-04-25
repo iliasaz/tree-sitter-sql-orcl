@@ -1,0 +1,90 @@
+================================================================================
+Lowercase keywords
+================================================================================
+
+select count(*) from employees where hire_date is not null;
+
+--------------------------------------------------------------------------------
+
+(program
+  (statement
+    (select
+      (keyword_select)
+      (select_expression
+        (term
+          value: (invocation
+            (object_reference
+              name: (identifier))
+            parameter: (term
+              value: (all_fields))))))
+    (from
+      (keyword_from)
+      (relation
+        (object_reference
+          name: (identifier)))
+      (where
+        (keyword_where)
+        predicate: (binary_expression
+          left: (field
+            name: (identifier))
+          operator: (is_not
+            (keyword_is)
+            (keyword_not))
+          right: (literal
+            (keyword_null)))))))
+
+================================================================================
+Mixed-case keywords
+================================================================================
+
+Select Count(*) From employees Where hire_date Is Not Null;
+
+--------------------------------------------------------------------------------
+
+(program
+  (statement
+    (select
+      (keyword_select)
+      (select_expression
+        (term
+          value: (invocation
+            (object_reference
+              name: (identifier))
+            parameter: (term
+              value: (all_fields))))))
+    (from
+      (keyword_from)
+      (relation
+        (object_reference
+          name: (identifier)))
+      (where
+        (keyword_where)
+        predicate: (binary_expression
+          left: (field
+            name: (identifier))
+          operator: (is_not
+            (keyword_is)
+            (keyword_not))
+          right: (literal
+            (keyword_null)))))))
+
+================================================================================
+Quoted identifier preserves case (not a keyword)
+================================================================================
+
+SELECT * FROM "My Table";
+
+--------------------------------------------------------------------------------
+
+(program
+  (statement
+    (select
+      (keyword_select)
+      (select_expression
+        (term
+          value: (all_fields))))
+    (from
+      (keyword_from)
+      (relation
+        (object_reference
+          name: (identifier))))))

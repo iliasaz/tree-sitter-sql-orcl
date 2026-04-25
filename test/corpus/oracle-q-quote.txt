@@ -1,0 +1,104 @@
+================================================================================
+q-quote bracket form with embedded apostrophe
+================================================================================
+
+SELECT q'[O'Brien]' FROM dual;
+
+--------------------------------------------------------------------------------
+
+(program
+  (statement
+    (select
+      (keyword_select)
+      (select_expression
+        (term
+          value: (literal))))
+    (from
+      (keyword_from)
+      (relation
+        (object_reference
+          name: (identifier))))))
+
+================================================================================
+q-quote curly braces
+================================================================================
+
+SELECT q'{abc}' FROM dual;
+
+--------------------------------------------------------------------------------
+
+(program
+  (statement
+    (select
+      (keyword_select)
+      (select_expression
+        (term
+          value: (literal))))
+    (from
+      (keyword_from)
+      (relation
+        (object_reference
+          name: (identifier))))))
+
+================================================================================
+q-quote angle brackets
+================================================================================
+
+SELECT q'<x>' FROM dual;
+
+--------------------------------------------------------------------------------
+
+(program
+  (statement
+    (select
+      (keyword_select)
+      (select_expression
+        (term
+          value: (literal))))
+    (from
+      (keyword_from)
+      (relation
+        (object_reference
+          name: (identifier))))))
+
+================================================================================
+q-quote parentheses
+================================================================================
+
+SELECT q'(p)' FROM dual;
+
+--------------------------------------------------------------------------------
+
+(program
+  (statement
+    (select
+      (keyword_select)
+      (select_expression
+        (term
+          value: (literal))))
+    (from
+      (keyword_from)
+      (relation
+        (object_reference
+          name: (identifier))))))
+
+================================================================================
+q-quote uppercase Q prefix
+================================================================================
+
+SELECT Q'[upper case prefix]' FROM dual;
+
+--------------------------------------------------------------------------------
+
+(program
+  (statement
+    (select
+      (keyword_select)
+      (select_expression
+        (term
+          value: (literal))))
+    (from
+      (keyword_from)
+      (relation
+        (object_reference
+          name: (identifier))))))

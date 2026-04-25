@@ -11,6 +11,8 @@ export default grammar({
   extras: $ => [
     /\s\n/,
     /\s/,
+    $.hint_line,
+    $.hint,
     $.comment,
     $.marginalia,
   ],
@@ -72,6 +74,10 @@ export default grammar({
       ),
     ),
 
+    // Oracle optimizer hint, line form: --+ hint
+    hint_line: _ => token(prec(2, /--\+[^\n]*/)),
+    // Oracle optimizer hint, block form: /*+ hint */
+    hint: _ => token(prec(2, /\/\*\+[^*]*\*+(?:[^/*][^*]*\*+)*\//)),
     comment: _ => /--.*/,
     // https://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment
     marginalia: _ => /\/\*[^*]*\*+(?:[^/*][^*]*\*+)*\//,

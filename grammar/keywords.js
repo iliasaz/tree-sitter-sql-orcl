@@ -426,4 +426,19 @@ export default {
 
   keyword_array: _ => make_keyword("array"), // not included in _type since it's a constructor literal
 
+  // Oracle: hierarchical queries
+  keyword_connect: _ => make_keyword("connect"),
+  keyword_prior: _ => make_keyword("prior"),
+  keyword_nocycle: _ => make_keyword("nocycle"),
+  keyword_siblings: _ => make_keyword("siblings"),
+
+  // Oracle: pseudocolumns and built-ins
+  keyword_rownum: _ => make_keyword("rownum"),
+  keyword_rowid: _ => make_keyword("rowid"),
+  keyword_sysdate: _ => make_keyword("sysdate"),
+  keyword_systimestamp: _ => make_keyword("systimestamp"),
+
+  // Oracle: PIVOT / UNPIVOT
+  keyword_pivot: _ => make_keyword("pivot"),
+  keyword_unpivot: _ => make_keyword("unpivot"),
 }
