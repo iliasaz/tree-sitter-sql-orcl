@@ -1,0 +1,41 @@
+{
+  "grammars": [
+    {
+      "name": "sql_orcl",
+      "camelcase": "SQLOrcl",
+      "scope": "source.sql.oracle",
+      "path": ".",
+      "file-types": [
+        "sql",
+        "pls",
+        "pks",
+        "pkb",
+        "plsql"
+      ],
+      "highlights": [
+        "queries/highlights.scm"
+      ]
+    }
+  ],
+  "metadata": {
+    "version": "0.0.1",
+    "license": "MIT",
+    "description": "Tree-sitter grammar for Oracle SQL and PL/SQL",
+    "authors": [
+      {
+        "name": "Ilia Sazonov"
+      }
+    ],
+    "links": {
+      "repository": "https://github.com/iliasaz/tree-sitter-sql-orcl"
+    }
+  },
+  "bindings": {
+    "c": false,
+    "go": false,
+    "node": false,
+    "python": false,
+    "rust": false,
+    "swift": true
+  }
+}

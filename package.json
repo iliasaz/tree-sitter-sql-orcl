@@ -1,0 +1,43 @@
+{
+  "name": "tree-sitter-sql-orcl",
+  "version": "0.0.1",
+  "description": "Tree-sitter grammar for Oracle SQL and PL/SQL",
+  "type": "module",
+  "scripts": {
+    "test": "tree-sitter test"
+  },
+  "author": "Ilia Sazonov",
+  "license": "MIT",
+  "peerDependencies": {
+    "tree-sitter": "^0.25.0"
+  },
+  "peerDependenciesMeta": {
+    "tree-sitter": {
+      "optional": true
+    }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iliasaz/tree-sitter-sql-orcl.git"
+  },
+  "homepage": "https://github.com/iliasaz/tree-sitter-sql-orcl#readme",
+  "keywords": [
+    "parser",
+    "tree-sitter",
+    "sql",
+    "oracle",
+    "plsql"
+  ],
+  "files": [
+    "grammar.js",
+    "grammar/**",
+    "queries/*",
+    "src/**",
+    "tree-sitter.json",
+    "Package.swift",
+    "bindings/swift/**"
+  ]
+}
