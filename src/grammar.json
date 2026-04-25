@@ -18207,31 +18207,6 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "keyword_function"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "object_reference"
-            },
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "plsql_parameter_list"
-                },
-                {
-                  "type": "BLANK"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "SYMBOL",
               "name": "keyword_index"
             },
             {
@@ -18254,31 +18229,6 @@
             {
               "type": "SYMBOL",
               "name": "object_reference"
-            }
-          ]
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "keyword_procedure"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "object_reference"
-            },
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "plsql_parameter_list"
-                },
-                {
-                  "type": "BLANK"
-                }
-              ]
             }
           ]
         },

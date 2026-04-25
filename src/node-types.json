@@ -4222,10 +4222,6 @@
           "named": true
         },
         {
-          "type": "keyword_function",
-          "named": true
-        },
-        {
           "type": "keyword_index",
           "named": true
         },
@@ -4243,10 +4239,6 @@
         },
         {
           "type": "keyword_on",
-          "named": true
-        },
-        {
-          "type": "keyword_procedure",
           "named": true
         },
         {
@@ -4287,10 +4279,6 @@
         },
         {
           "type": "object_reference",
-          "named": true
-        },
-        {
-          "type": "plsql_parameter_list",
           "named": true
         }
       ]
