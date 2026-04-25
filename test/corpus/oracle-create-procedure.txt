@@ -1,0 +1,75 @@
+================================================================================
+CREATE OR REPLACE PROCEDURE with IN params, declarations, EXCEPTION
+================================================================================
+
+CREATE OR REPLACE PROCEDURE update_salary(
+  p_emp_id IN NUMBER,
+  p_pct    IN NUMBER
+) AS
+  v_old_sal NUMBER;
+BEGIN
+  UPDATE emp SET sal = v_old_sal WHERE empno = p_emp_id;
+EXCEPTION
+  WHEN NO_DATA_FOUND THEN
+    RAISE;
+END update_salary;
+
+--------------------------------------------------------------------------------
+
+(program
+  (statement
+    (create_procedure
+      (keyword_create)
+      (keyword_or)
+      (keyword_replace)
+      (keyword_procedure)
+      name: (object_reference
+        name: (identifier))
+      (plsql_parameter_list
+        (plsql_parameter
+          name: (identifier)
+          (plsql_parameter_mode
+            (keyword_in))
+          type: (number
+            (keyword_number)))
+        (plsql_parameter
+          name: (identifier)
+          (plsql_parameter_mode
+            (keyword_in))
+          type: (number
+            (keyword_number))))
+      (keyword_as)
+      (plsql_declaration
+        name: (identifier)
+        type: (number
+          (keyword_number)))
+      (keyword_begin)
+      (statement
+        (update
+          (keyword_update)
+          (relation
+            (object_reference
+              name: (identifier)))
+          (keyword_set)
+          (assignment
+            left: (field
+              name: (identifier))
+            right: (field
+              name: (identifier)))
+          (where
+            (keyword_where)
+            predicate: (binary_expression
+              left: (field
+                name: (identifier))
+              right: (field
+                name: (identifier))))))
+      (plsql_exception_section
+        (keyword_exception)
+        (plsql_exception_handler
+          (keyword_when)
+          exception: (identifier)
+          (keyword_then)
+          (plsql_raise
+            (keyword_raise))))
+      (keyword_end)
+      end_label: (identifier))))

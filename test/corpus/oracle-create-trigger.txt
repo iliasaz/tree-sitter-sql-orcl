@@ -1,0 +1,44 @@
+================================================================================
+CREATE TRIGGER BEFORE INSERT OR UPDATE OF cols, FOR EACH ROW, with :new
+================================================================================
+
+CREATE OR REPLACE TRIGGER emp_audit
+BEFORE INSERT OR UPDATE OF sal ON emp
+FOR EACH ROW
+BEGIN
+  :new.modified_at := SYSDATE;
+END;
+
+--------------------------------------------------------------------------------
+
+(program
+  (statement
+    (create_trigger
+      (keyword_create)
+      (keyword_or)
+      (keyword_replace)
+      (keyword_trigger)
+      name: (object_reference
+        name: (identifier))
+      timing: (keyword_before)
+      (keyword_insert)
+      (keyword_or)
+      (keyword_update)
+      (keyword_of)
+      (identifier)
+      (keyword_on)
+      (object_reference
+        name: (identifier))
+      (keyword_for)
+      (keyword_each)
+      (keyword_row)
+      (plsql_block
+        (keyword_begin)
+        (plsql_assignment
+          target: (field
+            (object_reference
+              name: (identifier))
+            name: (identifier))
+          value: (pseudocolumn
+            (keyword_sysdate)))
+        (keyword_end)))))

@@ -1,0 +1,55 @@
+================================================================================
+CREATE FUNCTION with default param, RETURN, DETERMINISTIC
+================================================================================
+
+CREATE OR REPLACE FUNCTION calc_bonus(
+  p_sal IN NUMBER,
+  p_pct IN NUMBER DEFAULT 0.1
+) RETURN NUMBER
+DETERMINISTIC
+AS
+BEGIN
+  RETURN p_sal * p_pct;
+END calc_bonus;
+
+--------------------------------------------------------------------------------
+
+(program
+  (statement
+    (create_function
+      (keyword_create)
+      (keyword_or)
+      (keyword_replace)
+      (keyword_function)
+      name: (object_reference
+        name: (identifier))
+      (plsql_parameter_list
+        (plsql_parameter
+          name: (identifier)
+          (plsql_parameter_mode
+            (keyword_in))
+          type: (number
+            (keyword_number)))
+        (plsql_parameter
+          name: (identifier)
+          (plsql_parameter_mode
+            (keyword_in))
+          type: (number
+            (keyword_number))
+          (keyword_default)
+          default: (literal)))
+      (keyword_return)
+      return_type: (number
+        (keyword_number))
+      (keyword_deterministic)
+      (keyword_as)
+      (keyword_begin)
+      (plsql_return
+        (keyword_return)
+        value: (binary_expression
+          left: (field
+            name: (identifier))
+          right: (field
+            name: (identifier))))
+      (keyword_end)
+      end_label: (identifier))))

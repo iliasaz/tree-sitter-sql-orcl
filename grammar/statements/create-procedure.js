@@ -1,103 +1,53 @@
+// Oracle CREATE [OR REPLACE] PROCEDURE.
+// sqlrf/CREATE-PROCEDURE.html
+//
+// Replaces the upstream PostgreSQL/T-SQL/MySQL `create_procedure` so the
+// rule's body is Oracle PL/SQL and there is no GLR conflict between dialects.
+import { paren_list } from "../helpers.js";
+
 export default {
 
   create_procedure: $ => seq(
     $.keyword_create,
     optional($._or_replace),
-    // mariadb/mysql
-    optional(seq($.keyword_definer, '=', $.identifier)),
     $.keyword_procedure,
-    optional($._if_not_exists),
-    $.object_reference,
-    optional($.function_arguments),
-    repeat(
-      choice(
-        $.function_language,
-        $.function_security,
-        $.function_safety,
-      ),
-    ),
-    $.procedure_body,
-    repeat(
-      choice(
-        $.function_language,
-        $.function_security,
-        $.function_safety,
-      ),
-    ),
-  ),
-
-  procedure_body: $ => choice(
-    // BEGIN ATOMIC block (SQL standard)
-    seq(
-      $.keyword_begin,
-      $.keyword_atomic,
-      repeat1(
-        seq(
-          $._function_body_statement,
-          ';',
-        ),
-      ),
-      $.keyword_end,
-    ),
-    // Dollar-quoted with optional DECLARE (PostgreSQL)
-    seq(
-      $.keyword_as,
-      alias($._dollar_quoted_string_start_tag, $.dollar_quote),
-      optional(
-        seq(
-          $.keyword_declare,
-          repeat1(
-            $.function_declaration,
-          ),
-        ),
-      ),
-      $.keyword_begin,
-      repeat1(
-        seq(
-          $._function_body_statement,
-          ';',
-        ),
-      ),
-      $.keyword_end,
-      optional(';'),
-      alias($._dollar_quoted_string_end_tag, $.dollar_quote),
-    ),
-    // String literal body
-    seq(
-      $.keyword_as,
-      alias(
-        choice(
-          $._single_quote_string,
-          $._double_quote_string,
-        ),
-        $.literal
-      ),
-    ),
-    // Dollar-quoted single statement (PostgreSQL)
-    seq(
-      $.keyword_as,
-      alias($._dollar_quoted_string_start_tag, $.dollar_quote),
-      $._function_body_statement,
-      optional(';'),
-      alias($._dollar_quoted_string_end_tag, $.dollar_quote),
-    ),
-    // T-SQL style (no required RETURN)
-    $._tsql_procedure_body_statement,
-  ),
-
-  _tsql_procedure_body_statement: $ => seq(
-    optional($.keyword_as),
+    field("name", $.object_reference),
+    optional($.plsql_parameter_list),
+    optional($.plsql_authid_clause),
+    choice($.keyword_is, $.keyword_as),
+    optional(repeat1($.plsql_declaration)),
     $.keyword_begin,
-    optional($.var_declarations),
-    choice(
-      repeat($.statement),
-      repeat1(seq(
-        $.keyword_begin,
-        repeat($.statement),
-        $.keyword_end,
-      )),
-    ),
+    repeat($._plsql_statement),
+    optional($.plsql_exception_section),
     $.keyword_end,
+    optional(field("end_label", $.identifier)),
+  ),
+
+  // Oracle parameter mode keywords. `IN OUT` is two tokens; `INOUT` (single
+  // word) is also accepted as a synonym for tools that emit it.
+  plsql_parameter_mode: $ => choice(
+    seq($.keyword_in, $.keyword_out),
+    $.keyword_in,
+    $.keyword_out,
+    $.keyword_inout,
+  ),
+
+  plsql_parameter_list: $ => paren_list($.plsql_parameter, true),
+
+  plsql_parameter: $ => seq(
+    field("name", $.identifier),
+    optional($.plsql_parameter_mode),
+    optional($.keyword_nocopy),
+    field("type", $._type),
+    optional(seq(
+      choice(':=', $.keyword_default),
+      field("default", $._expression),
+    )),
+  ),
+
+  plsql_authid_clause: $ => seq(
+    $.keyword_authid,
+    choice($.keyword_current_user, $.keyword_definer),
   ),
 
 };

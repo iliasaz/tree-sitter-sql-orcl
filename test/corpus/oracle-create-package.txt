@@ -1,0 +1,144 @@
+================================================================================
+CREATE PACKAGE spec with constant, procedure, function declarations
+================================================================================
+
+CREATE OR REPLACE PACKAGE emp_pkg AS
+  g_const_max_sal CONSTANT NUMBER := 100000;
+  PROCEDURE hire(p_id IN NUMBER, p_name IN VARCHAR2);
+  FUNCTION get_salary(p_id IN NUMBER) RETURN NUMBER;
+END emp_pkg;
+
+--------------------------------------------------------------------------------
+
+(program
+  (statement
+    (create_package
+      (keyword_create)
+      (keyword_or)
+      (keyword_replace)
+      (keyword_package)
+      name: (object_reference
+        name: (identifier))
+      (keyword_as)
+      (plsql_declaration
+        name: (identifier)
+        (keyword_constant)
+        type: (number
+          (keyword_number))
+        value: (literal))
+      (plsql_subprogram_declaration
+        (keyword_procedure)
+        name: (identifier)
+        (plsql_parameter_list
+          (plsql_parameter
+            name: (identifier)
+            (plsql_parameter_mode
+              (keyword_in))
+            type: (number
+              (keyword_number)))
+          (plsql_parameter
+            name: (identifier)
+            (plsql_parameter_mode
+              (keyword_in))
+            type: (varchar2
+              (keyword_varchar2)))))
+      (plsql_subprogram_declaration
+        (keyword_function)
+        name: (identifier)
+        (plsql_parameter_list
+          (plsql_parameter
+            name: (identifier)
+            (plsql_parameter_mode
+              (keyword_in))
+            type: (number
+              (keyword_number))))
+        (keyword_return)
+        return_type: (number
+          (keyword_number)))
+      (keyword_end)
+      end_label: (identifier))))
+
+================================================================================
+CREATE PACKAGE BODY with nested procedure and function
+================================================================================
+
+CREATE OR REPLACE PACKAGE BODY emp_pkg AS
+  PROCEDURE hire(p_id IN NUMBER) IS
+  BEGIN
+    INSERT INTO emp (empno) VALUES (p_id);
+  END hire;
+
+  FUNCTION get_salary(p_id IN NUMBER) RETURN NUMBER IS
+    v_sal NUMBER;
+  BEGIN
+    RETURN v_sal;
+  END get_salary;
+END emp_pkg;
+
+--------------------------------------------------------------------------------
+
+(program
+  (statement
+    (create_package_body
+      (keyword_create)
+      (keyword_or)
+      (keyword_replace)
+      (keyword_package)
+      (keyword_body)
+      name: (object_reference
+        name: (identifier))
+      (keyword_as)
+      (package_procedure
+        (keyword_procedure)
+        name: (identifier)
+        (plsql_parameter_list
+          (plsql_parameter
+            name: (identifier)
+            (plsql_parameter_mode
+              (keyword_in))
+            type: (number
+              (keyword_number))))
+        (keyword_is)
+        (keyword_begin)
+        (statement
+          (insert
+            (keyword_insert)
+            (keyword_into)
+            (object_reference
+              name: (identifier))
+            (list
+              (column
+                (identifier)))
+            (keyword_values)
+            (list
+              (field
+                name: (identifier)))))
+        (keyword_end)
+        end_label: (identifier))
+      (package_function
+        (keyword_function)
+        name: (identifier)
+        (plsql_parameter_list
+          (plsql_parameter
+            name: (identifier)
+            (plsql_parameter_mode
+              (keyword_in))
+            type: (number
+              (keyword_number))))
+        (keyword_return)
+        return_type: (number
+          (keyword_number))
+        (keyword_is)
+        (plsql_declaration
+          name: (identifier)
+          type: (number
+            (keyword_number)))
+        (keyword_begin)
+        (plsql_return
+          (keyword_return)
+          value: (field
+            name: (identifier)))
+        (keyword_end)
+        end_label: (identifier))
+      (keyword_end)
+      end_label: (identifier))))

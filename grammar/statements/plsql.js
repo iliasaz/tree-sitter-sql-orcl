@@ -178,13 +178,108 @@ export default {
     ';',
   ),
 
-  // Note: Oracle CREATE PROCEDURE / FUNCTION / PACKAGE / PACKAGE BODY /
-  // TRIGGER are deferred. Wiring them into the existing _create_statement
-  // choice triggered conflicts with the upstream PostgreSQL/T-SQL versions
-  // and grew the LR parse table past tree-sitter's 65535 action limit.
-  // A future iteration could either (a) gate them behind a different
-  // top-level rule (e.g. an Oracle-specific source file mode) or
-  // (b) replace the existing create_function/procedure with a Lattice
-  // permissive form that handles both syntaxes.
+  // -----------------------------------------------------------------------
+  // CREATE [OR REPLACE] PACKAGE  /  CREATE [OR REPLACE] PACKAGE BODY
+  // sqlrf/CREATE-PACKAGE-statement.html and CREATE-PACKAGE-BODY-statement.html
+  // -----------------------------------------------------------------------
+  create_package: $ => seq(
+    $.keyword_create,
+    optional($._or_replace),
+    $.keyword_package,
+    field("name", $.object_reference),
+    optional($.plsql_authid_clause),
+    choice($.keyword_is, $.keyword_as),
+    repeat($._package_spec_item),
+    $.keyword_end,
+    optional(field("end_label", $.identifier)),
+  ),
+
+  create_package_body: $ => seq(
+    $.keyword_create,
+    optional($._or_replace),
+    $.keyword_package,
+    $.keyword_body,
+    field("name", $.object_reference),
+    choice($.keyword_is, $.keyword_as),
+    repeat($._package_body_item),
+    optional(seq(
+      $.keyword_begin,
+      repeat($._plsql_statement),
+      optional($.plsql_exception_section),
+    )),
+    $.keyword_end,
+    optional(field("end_label", $.identifier)),
+  ),
+
+  _package_spec_item: $ => choice(
+    $.plsql_subprogram_declaration,
+    $.plsql_declaration,
+  ),
+
+  _package_body_item: $ => choice(
+    $.package_procedure,
+    $.package_function,
+    $.plsql_declaration,
+  ),
+
+  // Subprogram forward-declarations in a package spec (no body).
+  plsql_subprogram_declaration: $ => seq(
+    choice(
+      seq(
+        $.keyword_procedure,
+        field("name", $.identifier),
+        optional($.plsql_parameter_list),
+      ),
+      seq(
+        $.keyword_function,
+        field("name", $.identifier),
+        optional($.plsql_parameter_list),
+        $.keyword_return,
+        field("return_type", $._type),
+      ),
+    ),
+    repeat(choice(
+      $.keyword_deterministic,
+      $.keyword_pipelined,
+    )),
+    ';',
+  ),
+
+  // Procedures/functions inside PACKAGE BODY use IS/AS but no CREATE keyword
+  // and end with `;`. They reuse the same parameter/declaration/body shape
+  // as the standalone CREATE PROCEDURE/FUNCTION rules.
+  package_procedure: $ => seq(
+    $.keyword_procedure,
+    field("name", $.identifier),
+    optional($.plsql_parameter_list),
+    choice($.keyword_is, $.keyword_as),
+    optional(repeat1($.plsql_declaration)),
+    $.keyword_begin,
+    repeat($._plsql_statement),
+    optional($.plsql_exception_section),
+    $.keyword_end,
+    optional(field("end_label", $.identifier)),
+    ';',
+  ),
+
+  package_function: $ => seq(
+    $.keyword_function,
+    field("name", $.identifier),
+    optional($.plsql_parameter_list),
+    $.keyword_return,
+    field("return_type", $._type),
+    repeat(choice(
+      $.keyword_deterministic,
+      $.keyword_pipelined,
+    )),
+    choice($.keyword_is, $.keyword_as),
+    optional(repeat1($.plsql_declaration)),
+    $.keyword_begin,
+    repeat($._plsql_statement),
+    optional($.plsql_exception_section),
+    $.keyword_end,
+    optional(field("end_label", $.identifier)),
+    ';',
+  ),
 
 };

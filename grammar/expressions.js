@@ -439,9 +439,14 @@ export default {
     $._double_quote_string,
     $._backtick_quoted_string,
     $._tsql_parameter,
+    $._oracle_bind_variable,
     seq("`", $._identifier, "`"),
   ),
   _tsql_parameter: $ => seq('@', $._identifier),
+  // Oracle bind variable / trigger pseudorecord reference (`:name`, `:new`,
+  // `:old`). Treated as an identifier so the surrounding rules (field
+  // access, assignment target) work uniformly.
+  _oracle_bind_variable: $ => seq(':', $._identifier),
   // support nordic chars and umlaue
   _identifier: _ => /[A-Za-z_\u00C0-\u017F][0-9A-Za-z_\u00C0-\u017F]*/,
 

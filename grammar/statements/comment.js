@@ -25,14 +25,15 @@ export default {
     // TODO: event trigger
     // TODO: foreign data wrapper
     // TODO: foreign table
-    seq($.keyword_function, $.object_reference, optional($.function_arguments)),
+    // FUNCTION / PROCEDURE removed: Oracle's COMMENT statement doesn't
+    // support them (sqlrf/COMMENT.html lists TABLE, COLUMN, OPERATOR,
+    // INDEXTYPE, MATERIALIZED VIEW, MINING MODEL, EDITION only).
     seq($.keyword_index, $.object_reference),
     // TODO: large object
     seq($.keyword_materialized, $.keyword_view, $.object_reference),
     // TODO: operator (|class|family)
     // TODO: policy
     // TODO: (procedural) language
-    seq($.keyword_procedure, $.object_reference, optional($.function_arguments)),
     // TODO: publication
     seq($.keyword_role, $.identifier),
     // TODO: routine
