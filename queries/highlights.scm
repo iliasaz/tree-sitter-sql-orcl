@@ -458,3 +458,85 @@
   ","
   "."
 ] @punctuation.delimiter
+
+;; -------------------------------------------------------------------------
+;; Oracle SQL / PL/SQL additions
+;; -------------------------------------------------------------------------
+
+;; Optimizer hints — distinct from regular comments
+(hint) @comment.documentation
+(hint_line) @comment.documentation
+
+;; Oracle pseudocolumns and parenless built-ins, when used as expressions
+(pseudocolumn) @variable.builtin
+
+;; Oracle parametric types (already named nodes via parametric_type)
+[
+  (keyword_varchar2)
+  (keyword_nvarchar2)
+  (keyword_number)
+  (keyword_clob)
+  (keyword_nclob)
+  (keyword_blob)
+  (keyword_bfile)
+  (keyword_long)
+  (keyword_raw)
+  (keyword_binary_float)
+  (keyword_binary_double)
+  (keyword_pls_integer)
+  (keyword_binary_integer)
+] @type.builtin
+
+;; Oracle pseudocolumn keywords (used by `pseudocolumn` rule)
+[
+  (keyword_sysdate)
+  (keyword_systimestamp)
+  (keyword_rownum)
+  (keyword_rowid)
+] @variable.builtin
+
+;; Oracle hierarchical query keywords
+;; (keyword_siblings is defined but not yet wired into a rule)
+[
+  (keyword_connect)
+  (keyword_prior)
+  (keyword_nocycle)
+] @keyword
+
+;; Oracle DDL keywords
+;; (keyword_share, keyword_pivot, keyword_unpivot are defined but not yet
+;; wired into a rule)
+[
+  (keyword_purge)
+  (keyword_synonym)
+  (keyword_nocache)
+] @keyword
+
+;; PL/SQL block / control flow keywords
+[
+  (keyword_elsif)
+  (keyword_loop)
+  (keyword_exit)
+  (keyword_continue)
+  (keyword_reverse)
+] @keyword.repeat
+
+[
+  (keyword_exception)
+  (keyword_raise)
+] @keyword.exception
+
+;; PL/SQL declaration / subprogram keywords actually wired into rules.
+;; Other keywords (nocopy, deterministic, pipelined, authid, package, body,
+;; pragma) are tokenised but not yet consumed by any rule.
+[
+  (keyword_constant)
+] @keyword
+
+;; PL/SQL declared variable names
+(plsql_declaration
+  name: (identifier) @variable)
+
+(plsql_assignment
+  target: (identifier) @variable)
+
