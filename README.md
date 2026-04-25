@@ -10,11 +10,14 @@ Early. The grammar is seeded from [`DerekStride/tree-sitter-sql`](https://github
 
 ```sh
 npm install -g tree-sitter-cli   # one-time
+./scripts/install-hooks.sh       # one-time, per clone
 tree-sitter generate
 tree-sitter test
 ```
 
 The generated `src/parser.c`, `src/grammar.json`, and `src/node-types.json` are committed so Swift Package Manager consumers do not need the `tree-sitter-cli` to build the parser.
+
+The pre-commit hook (`.githooks/pre-commit`) re-runs `tree-sitter generate` on every commit that touches `grammar.js`, `grammar/`, `src/scanner.c`, or `tree-sitter.json`, and refuses the commit if `src/parser.c` would change. CI runs the same check on every push, so the hook just catches drift earlier.
 
 ## Swift consumption
 

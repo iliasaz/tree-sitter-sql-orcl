@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+# Refuse a commit when src/ (generated parser) is out of sync with the
+# grammar files. CI runs the same check on every push; this hook catches
+# the drift locally so a stale parser.c never reaches origin.
+#
+# Install once per clone with: ./scripts/install-hooks.sh
+
+set -e
+
+# Only check when grammar inputs are part of this commit. Plain doc/queries/
+# corpus commits don't need a regen pass.
+staged_inputs=$(
+  git diff --cached --name-only --diff-filter=ACMRD \
+    | grep -E '^(grammar\.js$|grammar/|src/scanner\.c$|tree-sitter\.json$)' \
+    || true
+)
+if [[ -z "$staged_inputs" ]]; then
+  exit 0
+fi
+
+if ! command -v tree-sitter >/dev/null 2>&1; then
+  echo "[pre-commit] tree-sitter CLI not in PATH — skipping regen check." >&2
+  echo "[pre-commit] Install with: npm install -g tree-sitter-cli" >&2
+  exit 0
+fi
+
+echo "[pre-commit] Grammar input touched — regenerating parser to verify src/ is up-to-date."
+
+# Run generate against the working tree. If the user has unstaged grammar
+# edits, those count too — the hook validates what the working tree says,
+# which is what `tree-sitter generate` will see on CI as well.
+tree-sitter generate >/dev/null
+
+# After regen, src/ in the working tree reflects the canonical output. If
+# it differs from what's staged (HEAD + index), the user is committing a
+# stale parser.
+if ! git diff --quiet -- src/grammar.json src/node-types.json src/parser.c; then
+  echo
+  echo "  src/ is out of sync with the grammar files about to be committed." >&2
+  echo
+  echo "  tree-sitter generate produced output that differs from what's staged." >&2
+  echo "  The Build/test CI workflow runs the same regen and would fail on push." >&2
+  echo
+  echo "  Fix:" >&2
+  echo "      git add src/" >&2
+  echo "      git commit          # re-stage and try again" >&2
+  echo
+  echo "  Bypass (not recommended): git commit --no-verify" >&2
+  exit 1
+fi
+
+echo "[pre-commit] src/ is up-to-date."
