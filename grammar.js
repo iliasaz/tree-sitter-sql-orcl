@@ -22,6 +22,11 @@ export default grammar({
     $._dollar_quoted_string_start_tag,
     $._dollar_quoted_string_end_tag,
     $._dollar_quoted_string,
+    // Bare `/` on its own line — Oracle SQL*Plus's "execute the previous
+    // unit" directive. Made a structural token so multi-unit worksheets
+    // parse cleanly and the parser has a recovery anchor between units
+    // even when one of them is mid-typing.
+    $.slash_terminator,
   ],
 
   conflicts: $ => [
@@ -60,7 +65,10 @@ export default grammar({
 
   rules: {
     program: $ => seq(
-      // any number of transactions, statements, or blocks with a terminating ;
+      // any number of transactions, statements, or blocks with a terminating
+      // `;`, optionally followed by a SQL*Plus `/` execution directive;
+      // bare `/` lines are also allowed as standalone separators so the
+      // parser snaps cleanly even when an in-progress unit is malformed.
       repeat(
         choice(
           seq(
@@ -70,9 +78,11 @@ export default grammar({
               $.block,
             ),
             ';',
+            optional($.slash_terminator),
           ),
           // Oracle PL/SQL anonymous block, ;-terminated.
-          seq($.plsql_block, ';'),
+          seq($.plsql_block, ';', optional($.slash_terminator)),
+          $.slash_terminator,
         ),
       ),
       // optionally, a single statement without a terminating ;

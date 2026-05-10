@@ -13739,6 +13739,10 @@
           "named": true
         },
         {
+          "type": "slash_terminator",
+          "named": true
+        },
+        {
           "type": "statement",
           "named": true
         },
@@ -18993,6 +18997,10 @@
   },
   {
     "type": "parameter",
+    "named": true
+  },
+  {
+    "type": "slash_terminator",
     "named": true
   }
 ]

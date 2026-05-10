@@ -34,6 +34,18 @@
                   {
                     "type": "STRING",
                     "value": ";"
+                  },
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "slash_terminator"
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
                   }
                 ]
               },
@@ -47,8 +59,24 @@
                   {
                     "type": "STRING",
                     "value": ";"
+                  },
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "slash_terminator"
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
                   }
                 ]
+              },
+              {
+                "type": "SYMBOL",
+                "name": "slash_terminator"
               }
             ]
           }
@@ -23637,6 +23665,10 @@
     {
       "type": "SYMBOL",
       "name": "_dollar_quoted_string"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "slash_terminator"
     }
   ],
   "inline": [],

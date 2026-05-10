@@ -205,3 +205,124 @@ END;
           (object_reference
             name: (identifier)))))
     (keyword_end)))
+
+================================================================================
+Anonymous block followed by SQL*Plus / directive
+================================================================================
+
+BEGIN
+  NULL;
+END;
+/
+
+--------------------------------------------------------------------------------
+
+(program
+  (plsql_block
+    (keyword_begin)
+    (plsql_null
+      (keyword_null))
+    (keyword_end))
+  (slash_terminator))
+
+================================================================================
+Multiple top-level blocks separated by /
+================================================================================
+
+BEGIN
+  NULL;
+END;
+/
+
+DECLARE
+  v_x NUMBER := 0;
+BEGIN
+  v_x := v_x + 1;
+END;
+/
+
+BEGIN
+  NULL;
+END;
+/
+
+--------------------------------------------------------------------------------
+
+(program
+  (plsql_block
+    (keyword_begin)
+    (plsql_null
+      (keyword_null))
+    (keyword_end))
+  (slash_terminator)
+  (plsql_block
+    (plsql_declare_section
+      (keyword_declare)
+      (plsql_declaration
+        name: (identifier)
+        type: (number
+          (keyword_number))
+        value: (literal)))
+    (keyword_begin)
+    (plsql_assignment
+      target: (identifier)
+      value: (binary_expression
+        left: (field
+          name: (identifier))
+        right: (literal)))
+    (keyword_end))
+  (slash_terminator)
+  (plsql_block
+    (keyword_begin)
+    (plsql_null
+      (keyword_null))
+    (keyword_end))
+  (slash_terminator))
+
+================================================================================
+Bare division stays arithmetic (no slash_terminator)
+================================================================================
+
+SELECT 1 / 2 FROM dual;
+
+--------------------------------------------------------------------------------
+
+(program
+  (statement
+    (select
+      (keyword_select)
+      (select_expression
+        (term
+          value: (binary_expression
+            left: (literal)
+            right: (literal)))))
+    (from
+      (keyword_from)
+      (relation
+        (object_reference
+          name: (identifier))))))
+
+================================================================================
+Division across newlines stays arithmetic
+================================================================================
+
+SELECT 1
+/
+2 FROM dual;
+
+--------------------------------------------------------------------------------
+
+(program
+  (statement
+    (select
+      (keyword_select)
+      (select_expression
+        (term
+          value: (binary_expression
+            left: (literal)
+            right: (literal)))))
+    (from
+      (keyword_from)
+      (relation
+        (object_reference
+          name: (identifier))))))
